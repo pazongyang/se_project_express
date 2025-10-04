@@ -1,11 +1,42 @@
-const userRouter = require("./users");
-const clothingItemsRouter = require("./clothingItems");
+const User = require("../models/user");
 
-router.use("/users", userRouter);
-router.use("/items", clothingItemsRouter);
+const getUsers = (req, res) => {
+  User.find({})
+    .then((users) => res.status(200).send(users))
+    .catch((err) => {
+      console.error(err);
+      return res.status(500).send({ message: err.message });
+    });
+};
 
-router.use((req, res) => {
-  res.status(404).send({ message: "Requested resource not found" });
-});
+const createUser = (req, res) => {
+  const { name, avatar } = req.body;
+  User.create({ name, avatar })
+    .then((user) => res.status(201).send(user))
+    .catch((err) => {
+      console.error(err);
+      if (err.name === "ValidationError") {
+        return res.status(400).send({ message: "Invalid user data" });
+      }
+      return res.status(500).send({ message: "Internal server error" });
+    });
+};
 
-module.exports = router;
+const getUser = (req, res) => {
+  const { userId } = req.params;
+  User.findById(userId)
+    .orFail()
+    .then((user) => res.status(200).send(user))
+    .catch((err) => {
+      console.error(err);
+      if (err.name === "DocumentNotFoundError") {
+        return res.status(404).send({ message: "User not found" });
+      }
+      if (err.name === "CastError") {
+        return res.status(400).send({ message: "Invalid user ID format" });
+      }
+      return res.status(500).send({ message: "Internal server error" });
+    });
+};
+
+module.exports = { getUsers, createUser, getUser };
