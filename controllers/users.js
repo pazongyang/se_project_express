@@ -1,41 +1,62 @@
 const User = require("../models/user");
+const {
+  BAD_REQUEST,
+  NOT_FOUND,
+  SERVER_ERROR,
+  OK,
+  CREATED,
+  ERROR_MESSAGES,
+} = require("../utils/errors");
 
 const getUsers = (req, res) => {
   User.find({})
-    .then((users) => res.status(200).send(users))
+    .then((users) => res.status(OK).send(users))
     .catch((err) => {
       console.error(err);
-      return res.status(500).send({ message: err.message });
+      res.status(SERVER_ERROR).send({ message: ERROR_MESSAGES.SERVER_ERROR });
     });
 };
 
 const createUser = (req, res) => {
   const { name, avatar } = req.body;
+
   User.create({ name, avatar })
-    .then((user) => res.status(201).send(user))
+    .then((user) => res.status(CREATED).send(user))
     .catch((err) => {
       console.error(err);
+
       if (err.name === "ValidationError") {
-        return res.status(400).send({ message: "Invalid user data" });
+        return res
+          .status(BAD_REQUEST)
+          .send({ message: ERROR_MESSAGES.BAD_REQUEST });
       }
-      return res.status(500).send({ message: "Internal server error" });
+
+      res.status(SERVER_ERROR).send({ message: ERROR_MESSAGES.SERVER_ERROR });
     });
 };
 
 const getUser = (req, res) => {
   const { userId } = req.params;
+
   User.findById(userId)
     .orFail()
-    .then((user) => res.status(200).send(user))
+    .then((user) => res.status(OK).send(user))
     .catch((err) => {
       console.error(err);
+
       if (err.name === "DocumentNotFoundError") {
-        return res.status(404).send({ message: "User not found" });
+        return res
+          .status(NOT_FOUND)
+          .send({ message: ERROR_MESSAGES.NOT_FOUND });
       }
+
       if (err.name === "CastError") {
-        return res.status(400).send({ message: "Invalid user ID format" });
+        return res
+          .status(BAD_REQUEST)
+          .send({ message: "Invalid user ID format" });
       }
-      return res.status(500).send({ message: "Internal server error" });
+
+      res.status(SERVER_ERROR).send({ message: ERROR_MESSAGES.SERVER_ERROR });
     });
 };
 
