@@ -6,54 +6,54 @@ const {
   ERROR_MESSAGES,
 } = require("../utils/errors");
 
-const getUsers = async (req, res) => {
-  try {
-    const users = await User.find({});
-    res.status(200).send(users);
-  } catch (err) {
-    console.error(err);
-    res.status(SERVER_ERROR).send({ message: ERROR_MESSAGES.SERVER_ERROR });
-  }
+const getUsers = (req, res) => {
+  return User.find({})
+    .then((users) => res.status(200).send(users))
+    .catch((err) => {
+      return res
+        .status(SERVER_ERROR)
+        .send({ message: ERROR_MESSAGES.SERVER_ERROR });
+    });
 };
 
-const createUser = async (req, res) => {
-  try {
-    const { name, avatar } = req.body;
+const createUser = (req, res) => {
+  const { name, avatar } = req.body;
 
-    if (!name) {
-      return res.status(BAD_REQUEST).send({ message: "Name is required." });
-    }
-
-    const user = await User.create({ name, avatar });
-    res.status(201).send(user);
-  } catch (err) {
-    console.error(err);
-    if (err.name === "ValidationError") {
+  return User.create({ name, avatar })
+    .then((user) => res.status(201).send(user))
+    .catch((err) => {
+      if (err.name === "ValidationError") {
+        return res
+          .status(BAD_REQUEST)
+          .send({ message: ERROR_MESSAGES.BAD_REQUEST });
+      }
       return res
-        .status(BAD_REQUEST)
-        .send({ message: ERROR_MESSAGES.BAD_REQUEST });
-    }
-    res.status(SERVER_ERROR).send({ message: ERROR_MESSAGES.SERVER_ERROR });
-  }
+        .status(SERVER_ERROR)
+        .send({ message: ERROR_MESSAGES.SERVER_ERROR });
+    });
 };
 
-const getUser = async (req, res) => {
-  try {
-    const { userId } = req.params;
-    const user = await User.findById(userId).orFail();
-    res.status(200).send(user);
-  } catch (err) {
-    console.error(err);
-    if (err.name === "DocumentNotFoundError") {
-      return res.status(NOT_FOUND).send({ message: ERROR_MESSAGES.NOT_FOUND });
-    }
-    if (err.name === "CastError") {
+const getUser = (req, res) => {
+  const { userId } = req.params;
+
+  return User.findById(userId)
+    .orFail()
+    .then((user) => res.status(200).send(user))
+    .catch((err) => {
+      if (err.name === "DocumentNotFoundError") {
+        return res
+          .status(NOT_FOUND)
+          .send({ message: ERROR_MESSAGES.NOT_FOUND });
+      }
+      if (err.name === "CastError") {
+        return res
+          .status(BAD_REQUEST)
+          .send({ message: ERROR_MESSAGES.BAD_REQUEST });
+      }
       return res
-        .status(BAD_REQUEST)
-        .send({ message: ERROR_MESSAGES.BAD_REQUEST });
-    }
-    res.status(SERVER_ERROR).send({ message: ERROR_MESSAGES.SERVER_ERROR });
-  }
+        .status(SERVER_ERROR)
+        .send({ message: ERROR_MESSAGES.SERVER_ERROR });
+    });
 };
 
 module.exports = { getUsers, createUser, getUser };
