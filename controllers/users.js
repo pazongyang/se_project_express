@@ -1,56 +1,11 @@
-const User = require("../models/user");
-const {
-  BAD_REQUEST,
-  NOT_FOUND,
-  SERVER_ERROR,
-  ERROR_MESSAGES,
-} = require("../utils/errors");
+const userRouter = require("./users");
+const clothingItemsRouter = require("./clothingItems");
 
-const getUsers = (req, res) =>
-  User.find({})
-    .then((users) => res.status(200).send(users))
-    .catch((err) =>
-      res.status(SERVER_ERROR).send({ message: ERROR_MESSAGES.SERVER_ERROR })
-    );
+router.use("/users", userRouter);
+router.use("/items", clothingItemsRouter);
 
-const createUser = (req, res) => {
-  const { name, avatar } = req.body;
-  return User.create({ name, avatar })
-    .then((user) => res.status(201).send(user))
-    .catch((err) => {
-      if (err.name === "ValidationError") {
-        return res
-          .status(BAD_REQUEST)
-          .send({ message: ERROR_MESSAGES.BAD_REQUEST });
-      }
+router.use((req, res) => {
+  res.status(404).send({ message: "Requested resource not found" });
+});
 
-      return res
-        .status(SERVER_ERROR)
-        .send({ message: ERROR_MESSAGES.SERVER_ERROR });
-    });
-};
-
-const getUser = (req, res) => {
-  const { userId } = req.params;
-  return User.findById(userId)
-    .orFail()
-    .then((user) => res.status(200).send(user))
-    .catch((err) => {
-      if (err.name === "DocumentNotFoundError") {
-        return res
-          .status(NOT_FOUND)
-          .send({ message: ERROR_MESSAGES.NOT_FOUND });
-      }
-      if (err.name === "CastError") {
-        return res
-          .status(BAD_REQUEST)
-          .send({ message: ERROR_MESSAGES.BAD_REQUEST });
-      }
-
-      return res
-        .status(SERVER_ERROR)
-        .send({ message: ERROR_MESSAGES.SERVER_ERROR });
-    });
-};
-
-module.exports = { getUsers, createUser, getUser };
+module.exports = router;
