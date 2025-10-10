@@ -37,9 +37,9 @@ mongoose.connect("mongodb://127.0.0.1:27017/wtwr_db").catch(() => {});
 app.use(express.json());
 app.use(cors());
 
-app.use((req) => {
-  req.user = { _id: "68df1a1caef3cf37fff9365c" };
-});
+// app.use((req) => {
+//   req.user = { _id: "68df1a1caef3cf37fff9365c" };
+// });
 
 app.use("/", mainRouter);
 
