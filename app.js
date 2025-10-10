@@ -37,14 +37,13 @@ mongoose.connect("mongodb://127.0.0.1:27017/wtwr_db").catch(() => {});
 app.use(express.json());
 app.use(cors());
 
-app.use((req, _res, _next) => {
+app.use((req) => {
   req.user = { _id: "68df1a1caef3cf37fff9365c" };
-  _next();
 });
 
 app.use("/", mainRouter);
 
-app.use((_err, _req, res, _next) => {
+app.use((res) => {
   res
     .status(SERVER_ERROR)
     .json({ message: "An error has occurred on the server" });
