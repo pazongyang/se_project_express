@@ -1,3 +1,10 @@
+// app.use((req, res, next) => {
+//   req.user = {
+//     _id: "68df1a1caef3cf37fff9365c",
+//   };
+//   next();
+// });
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -13,7 +20,7 @@ app.use(express.json());
 
 app.use((req, res, next) => {
   req.user = {
-    _id: "68df1a1caef3cf37fff9365c",
+    _id: "5d8b8592978f8bd833ca8133",
   };
   next();
 });
