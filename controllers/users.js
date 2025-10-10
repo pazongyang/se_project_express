@@ -40,7 +40,7 @@ const login = (req, res) => {
           .send({ message: "Incorrect email or password" });
       }
 
-      bcrypt.compare(password, user.password).then((matched) => {
+      return bcrypt.compare(password, user.password).then((matched) => {
         if (!matched) {
           return res
             .status(BAD_REQUEST)
