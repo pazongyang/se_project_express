@@ -14,8 +14,8 @@ module.exports = (req, res, next) => {
 
   try {
     const payload = jwt.verify(token, JWT_SECRET);
-    req.user = payload; // attach user _id to request
-    next();
+    req.user = payload;
+    return next();
   } catch (err) {
     return res.status(BAD_REQUEST).send({ message: "Invalid token" });
   }
