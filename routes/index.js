@@ -1,8 +1,10 @@
-const router = require("express").Router();
-const { NOT_FOUND } = require("../utils/errors");
+const express = require("express");
+const auth = require("../middlewares/auth");
 const userRouter = require("./users");
 const clothingItemsRouter = require("./clothingItems");
-const auth = require("../middlewares/auth");
+const { NOT_FOUND } = require("../utils/errors");
+
+const router = express.Router();
 
 router.use("/items", clothingItemsRouter);
 router.use("/users", auth, userRouter);
