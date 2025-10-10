@@ -12,23 +12,27 @@ const getItems = (req, res) => {
     });
 };
 
-const createItem = (req, res, next) => {
+const createItem = (req, res) => {
   const { name, weather, imageUrl } = req.body;
 
   if (!req.user || !req.user._id) {
-    return next(new BadRequestError("Authorization required"));
+    return res.status(BAD_REQUEST).send({ message: "Authorization required" });
   }
 
   const owner = req.user._id;
 
-  ClothingItem.create({ name, weather, imageUrl, owner })
+  return ClothingItem.create({ name, weather, imageUrl, owner })
     .then((item) => res.status(201).send(item))
     .catch((err) => {
       if (err.name === "ValidationError") {
-        next(new BadRequestError("Invalid data for item creation"));
-      } else {
-        next(err);
+        return res
+          .status(BAD_REQUEST)
+          .send({ message: "Invalid data for item creation" });
       }
+      console.error(err);
+      return res
+        .status(SERVER_ERROR)
+        .send({ message: "An error has occurred on the server" });
     });
 };
 
