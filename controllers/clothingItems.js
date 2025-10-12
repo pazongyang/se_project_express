@@ -1,5 +1,10 @@
 const ClothingItem = require("../models/clothingItem");
-const { BAD_REQUEST, NOT_FOUND, SERVER_ERROR } = require("../utils/errors");
+const {
+  BAD_REQUEST,
+  NOT_FOUND,
+  SERVER_ERROR,
+  FORBIDDEN,
+} = require("../utils/errors");
 
 const getItems = (req, res) => {
   ClothingItem.find({})
@@ -14,14 +19,9 @@ const getItems = (req, res) => {
 
 const createItem = (req, res) => {
   const { name, weather, imageUrl } = req.body;
-
-  if (!req.user || !req.user._id) {
-    return res.status(BAD_REQUEST).send({ message: "Authorization required" });
-  }
-
   const owner = req.user._id;
 
-  return ClothingItem.create({ name, weather, imageUrl, owner })
+  ClothingItem.create({ name, weather, imageUrl, owner })
     .then((item) => res.status(201).send(item))
     .catch((err) => {
       if (err.name === "ValidationError") {
@@ -29,7 +29,6 @@ const createItem = (req, res) => {
           .status(BAD_REQUEST)
           .send({ message: "Invalid data for item creation" });
       }
-      console.error(err);
       return res
         .status(SERVER_ERROR)
         .send({ message: "An error has occurred on the server" });
@@ -44,7 +43,7 @@ const deleteItem = (req, res) => {
     .then((item) => {
       if (item.owner.toString() !== req.user._id) {
         return res
-          .status(403)
+          .status(FORBIDDEN)
           .send({ message: "You can only delete your own items" });
       }
 

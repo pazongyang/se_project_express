@@ -1,54 +1,34 @@
-// const express = require("express");
-// const mongoose = require("mongoose");
-// const cors = require("cors");
-// const mainRouter = require("./routes/index");
-
-// const app = express();
-// const { PORT = 3001 } = process.env;
-
-// mongoose.connect("mongodb://127.0.0.1:27017/wtwr_db").catch(console.error);
-
-// app.use(express.json());
-// app.use(cors());
-
-// // Temporary auth bypass (commented for now since auth is in routes)
-// // app.use((req, res, next) => {
-// //   req.user = {
-// //     _id: "68df1a1caef3cf37fff9365c",
-// //   };
-// //   next();
-// // });
-
-// app.use("/", mainRouter);
-
-// app.listen(PORT);
-
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const mainRouter = require("./routes/index");
-const { SERVER_ERROR } = require("./utils/errors");
+const { SERVER_ERROR, NOT_FOUND } = require("./utils/errors");
 
 const app = express();
 const { PORT = 3001 } = process.env;
 
-mongoose.connect("mongodb://127.0.0.1:27017/wtwr_db").catch(() => {});
+mongoose.connect("mongodb://127.0.0.1:27017/wtwr_db").catch((err) => {
+  console.error("MongoDB connection error:", err);
+});
 
 app.use(express.json());
 app.use(cors());
 
-// app.use((req) => {
-//   req.user = { _id: "68df1a1caef3cf37fff9365c" };
-// });
-
 app.use("/", mainRouter);
 
-app.use((res) => {
+app.use((req, res) => {
+  res.status(NOT_FOUND).json({ message: "Requested resource not found" });
+});
+
+app.use((err, req, res, next) => {
+  console.error(err);
   res
     .status(SERVER_ERROR)
     .json({ message: "An error has occurred on the server" });
 });
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
 module.exports = app;

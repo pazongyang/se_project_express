@@ -8,6 +8,7 @@ const clothingItemsRouter = require("./clothingItems");
 
 router.post("/signup", createUser);
 router.post("/signin", login);
+
 router.use("/items", clothingItemsRouter);
 
 router.use(auth);
