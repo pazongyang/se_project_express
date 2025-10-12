@@ -6,7 +6,9 @@ const {
   SERVER_ERROR,
   CONFLICT,
   UNAUTHORIZED,
+  NOT_FOUND,
 } = require("../utils/errors");
+
 const { JWT_SECRET } = require("../utils/config");
 
 const createUser = (req, res) => {
