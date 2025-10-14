@@ -7,12 +7,15 @@ const clothingItemsRouter = require("./clothingItems");
 router.post("/signin", login);
 router.post("/signup", createUser);
 
-router.use(auth);
-router.use("/users", userRouter);
 router.use("/items", clothingItemsRouter);
 
+router.use(auth);
+
+router.use("/users", userRouter);
+
+const { NOT_FOUND } = require("../utils/errors");
 router.use((req, res) => {
-  res.status(404).json({ message: "Requested resource not found" });
+  res.status(NOT_FOUND).json({ message: "Requested resource not found" });
 });
 
 module.exports = router;
