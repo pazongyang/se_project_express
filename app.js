@@ -28,6 +28,8 @@ app.use((err, req, res) => {
     .json({ message: "An error has occurred on the server" });
 });
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 module.exports = app;

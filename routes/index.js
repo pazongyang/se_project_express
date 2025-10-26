@@ -2,6 +2,7 @@ const router = require("express").Router();
 const { login, createUser } = require("../controllers/users");
 const auth = require("../middlewares/auth");
 const userRouter = require("./users");
+
 const clothingItemsRouter = require("./clothingItems");
 
 router.post("/signin", login);
