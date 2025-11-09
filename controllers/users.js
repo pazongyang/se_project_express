@@ -18,9 +18,10 @@ const createUser = (req, res) => {
     .hash(password, 10)
     .then((hash) => User.create({ name, avatar, email, password: hash }))
     .then((user) => {
-      const userObj = user.toObject();
-      delete userObj.password;
-      res.status(201).send(userObj);
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
+        expiresIn: "7d",
+      });
+      res.status(201).send({ token });
     })
     .catch((err) => {
       if (err.code === 11000) {
