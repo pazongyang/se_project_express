@@ -21,7 +21,7 @@ app.use((req, res) => {
   res.status(NOT_FOUND).json({ message: "Requested resource not found" });
 });
 
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   console.error(err);
   res
     .status(SERVER_ERROR)
