@@ -58,9 +58,9 @@ Over the last two sprints, you built the front end of WTWR. The goal of this bac
 - **GitHub Actions** – CI/CD for automated tests.
 - **Postman** – API testing suite.
 
-### 1. Clone Repository
+### 1. Clone WTWR
 
-```bash
-git clone https://github.com/pazongyang/se_project_express
+Check out [What WTWR is about](https://drive.google.com/file/d/1ZoXHIcKy7yWklRyE111k_ZP0xLtiPtsz/view?usp=sharing)
+git clone (https://github.com/pazongyang/se_project_express)
 cd se_project_express
-```
+
