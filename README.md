@@ -60,7 +60,7 @@ Over the last two sprints, you built the front end of WTWR. The goal of this bac
 
 ### 1. Clone WTWR
 
-Check out [What WTWR is about](https://drive.google.com/file/d/1ZoXHIcKy7yWklRyE111k_ZP0xLtiPtsz/view?usp=sharing)
+Check out [What WTWR is about](https://drive.google.com/file/d/1LYgus47wqtd5gEKwlFYrh8FPTLT0wJea/view?usp=sharing)
+
 git clone (https://github.com/pazongyang/se_project_express)
 cd se_project_express
-

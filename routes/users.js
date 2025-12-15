@@ -1,11 +1,10 @@
 const express = require("express");
-const { validateSignup } = require("../middlewares/validation");
+const { validateUpdateUser } = require("../middlewares/validation");
 const { getCurrentUser, updateUser } = require("../controllers/users");
 
 const router = express.Router();
 
 router.get("/me", getCurrentUser);
-router.patch("/me", validateSignup, updateUser); 
+router.patch("/me", validateUpdateUser, updateUser);
 
 module.exports = router;
-
