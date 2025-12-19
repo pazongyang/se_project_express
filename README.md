@@ -58,9 +58,16 @@ Over the last two sprints, you built the front end of WTWR. The goal of this bac
 - **GitHub Actions** – CI/CD for automated tests.
 - **Postman** – API testing suite.
 
-### 1. Clone WTWR
-
-Check out [What WTWR is about](https://drive.google.com/file/d/1LYgus47wqtd5gEKwlFYrh8FPTLT0wJea/view?usp=sharing)
+### Clone WTWR
 
 git clone (https://github.com/pazongyang/se_project_express)
 cd se_project_express
+
+## Intro to WTWR
+
+Check out [What WTWR is about](https://drive.google.com/file/d/1LYgus47wqtd5gEKwlFYrh8FPTLT0wJea/view?usp=sharing)
+
+## Domain Names
+
+- **Frontend**: https://https://wtwr-demo.mine.bz/
+- **Backend**: https://api.wtwr-demo.mine.bz/
