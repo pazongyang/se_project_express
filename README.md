@@ -60,12 +60,14 @@ Over the last two sprints, you built the front end of WTWR. The goal of this bac
 
 ### Clone WTWR
 
-git clone (https://github.com/pazongyang/se_project_express)
-cd se_project_express
+- **Backend**: https://github.com/pazongyang/se_project_express
+  cd se_project_express
+- **Frontend repositary** : https://github.com/pazongyang/se_project_react
+  cd se_project_react
 
 ## Intro to WTWR
 
-Check out [What WTWR is about](https://drive.google.com/file/d/1LYgus47wqtd5gEKwlFYrh8FPTLT0wJea/view?usp=sharing)
+Check out [What WTWR is about](https://drive.google.com/file/d/1Zmohf7ce2-8xHX_H-ZBW5sXkCrCmIiH5/view?usp=sharing)
 
 ## Domain Names
 
