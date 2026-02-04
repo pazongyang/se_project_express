@@ -71,5 +71,5 @@ Check out [What WTWR is about](https://drive.google.com/file/d/1Zmohf7ce2-8xHX_H
 
 ## Domain Names
 
-- **Frontend**: https://https://wtwr-demo.mine.bz/
+- **Frontend**: https://wtwr-demo.mine.bz/
 - **Backend**: https://api.wtwr-demo.mine.bz/
